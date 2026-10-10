@@ -27,14 +27,14 @@
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0F0F1A;--card:#1A1A2B;--card-2:#222237;--ink:#F5F5FC;--ink-2:#C9CBDD;--ink-3:#9EA2BC;--line:#30304A;--edge:#2A2A44;--navy:#6D5DF0;--navy-2:#9D6BFF;--navy-3:#F472B6;--sun:#FFD166;--t-blue:rgba(99,91,255,.18);--t-green:rgba(22,163,122,.18);--t-amber:rgba(245,158,11,.18);--t-pink:rgba(236,72,153,.18);--t-sky:rgba(14,165,233,.18);--shadow:0 1px 2px rgba(0,0,0,.35),0 10px 28px -14px rgba(0,0,0,.6)}}
 :root[data-theme="dark"]{--paper:#0F0F1A;--card:#1A1A2B;--card-2:#222237;--ink:#F5F5FC;--ink-2:#C9CBDD;--ink-3:#9EA2BC;--line:#30304A;--edge:#2A2A44;--navy:#6D5DF0;--navy-2:#9D6BFF;--navy-3:#F472B6;--sun:#FFD166;--t-blue:rgba(99,91,255,.18);--t-green:rgba(22,163,122,.18);--t-amber:rgba(245,158,11,.18);--t-pink:rgba(236,72,153,.18);--t-sky:rgba(14,165,233,.18);--shadow:0 1px 2px rgba(0,0,0,.35),0 10px 28px -14px rgba(0,0,0,.6)}
-html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%;height:100%}
-body{font-family:'Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--paper);color:var(--ink);font-size:var(--fs);line-height:1.6;font-weight:500;min-height:100%;padding-bottom:calc(var(--tab) + env(safe-area-inset-bottom,0px) + 96px);font-feature-settings:"tnum" 1}
+html{-webkit-text-size-adjust:100%;height:100%;overflow:hidden;overscroll-behavior:none}
+body{font-family:'Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--paper);color:var(--ink);font-size:var(--fs);line-height:1.6;font-weight:500;height:100%;overflow:hidden;display:flex;flex-direction:column;padding-bottom:0;position:relative;font-feature-settings:"tnum" 1}
 button,input,select,textarea{font:inherit;color:inherit}
 button{background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
 a{color:var(--blue)}
 :focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:6px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-.wrap{max-width:640px;margin:0 auto;padding:0 calc(16px + env(safe-area-inset-right,0px)) 0 calc(16px + env(safe-area-inset-left,0px))}
+.page{max-width:640px;margin:0 auto;padding:0 calc(16px + env(safe-area-inset-right,0px)) 0 calc(16px + env(safe-area-inset-left,0px))}
 h1{font-size:1.75em;font-weight:800;letter-spacing:-.025em;line-height:1.12}
 h2{font-size:1.2em;font-weight:800;letter-spacing:-.015em;margin:28px 0 12px;display:flex;align-items:center;gap:8px}
 h2::before{content:"";width:6px;height:18px;border-radius:4px;background:linear-gradient(var(--navy),var(--navy-3));flex:none}
@@ -344,7 +344,7 @@ textarea.notes{width:100%;min-height:220px;border:0;background:transparent;resiz
 @media (hover:hover){.btn:hover{filter:brightness(.96)}.iconbtn:hover,.list .it:hover,.tool:hover,.subj:hover,.task:hover{background:var(--card-2)}.side button:not(.on):hover,.tabbar button:not(.on):hover{color:var(--ink)}.cal .day:not(.sel):hover{background:var(--card-2)}}
 /* Tablet */
 @media (min-width:640px){
- .wrap{max-width:900px;padding:0 24px}
+ .page{max-width:900px;padding:0 24px}
  .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 22px;align-items:start}
  .subjgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
  .tools{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -362,11 +362,11 @@ textarea.notes{width:100%;min-height:220px;border:0;background:transparent;resiz
 }
 /* Escritorio */
 @media (min-width:960px){
- body{padding-bottom:48px}
+ body{padding-bottom:0}
  .side{display:flex}
  .tabbar{display:none}
- .wrap{max-width:none;margin:0 0 0 236px;padding:0 40px 40px}
- #app{max-width:1120px}
+ #app{margin-left:236px;width:calc(100% - 236px)}
+ .page{max-width:1120px;margin:0 auto;padding:0 40px 40px}
  .topbar{padding:26px 0 12px}
  .topbar h1{font-size:28px}
  .hero{margin:24px 0 0}
@@ -377,7 +377,7 @@ textarea.notes{width:100%;min-height:220px;border:0;background:transparent;resiz
  .tt .col{--hour:52px}
  .toast{bottom:40px;left:calc(50% + 118px)}
 }
-@media (min-width:1280px){.subjgrid{grid-template-columns:repeat(3,minmax(0,1fr))}#app{max-width:1200px}}
+@media (min-width:1280px){.subjgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.page{max-width:1200px}}
 /* Pantallas muy estrechas */
 @media (max-width:360px){body{font-size:15px}.stats{gap:8px}.stat b{font-size:20px}.hero .big{font-size:27px}.cols3{grid-template-columns:1fr 1fr}}
 /* Acceso */
@@ -446,6 +446,13 @@ button:not(.box):not(.cb):active{opacity:.82}
 .days button:active,.filters button:active{transform:scale(.95)}
 .sheet{animation:up .26s cubic-bezier(.2,.9,.3,1.1)}
 @media (prefers-reduced-motion:reduce){#app.enter,.prog i,.wk-bar i,.hero .bar i,.task.pop .box,.sheet{animation:none!important}}
+/* ===== Estructura de pantalla: #app desplaza, la barra es fija de verdad ===== */
+#app{flex:1 1 auto;min-height:0;width:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:96px}
+.tabbar{position:static;flex:none;z-index:40}
+.fab{position:absolute}
+.toast{position:absolute}
+.auth,.backdrop{position:absolute}
+@media (min-width:960px){#app{padding-bottom:48px;margin-left:236px;width:calc(100% - 236px)}.tabbar{display:none}}
 /* ===== Normalización: una sola escala para todo ===== */
 h1,.topbar h1,.shead h1,.auth .logo{font-size:1.5em;line-height:1.15}
 h2{font-size:1.15em;margin:24px 0 10px}
@@ -518,7 +525,7 @@ h3{font-size:1.05em}
 </head>
 <body>
 <aside class="side" id="side" aria-label="Secciones"></aside>
-<div id="app" class="wrap"></div>
+<div id="app"></div>
 <nav class="tabbar" aria-label="Secciones"><div class="in" id="tabs"></div></nav>
 <button class="fab" id="fab" aria-label="Añadir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
 <div class="backdrop" id="backdrop"><div class="sheet" role="dialog" aria-modal="true"><div class="sh"><button class="btn small" id="sh-cancel">Cancelar</button><b id="sh-title"></b><button class="btn small primary" id="sh-save">Guardar</button></div><div class="sb" id="sh-body"></div></div></div>
@@ -594,7 +601,7 @@ function save(){state.updatedAt=Date.now();persistLocal();scheduleCloud()}
 const SUPABASE_URL='https://hoevbiwbhnymzvfqwsla.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_GsMAIZprQtY03dysiXTCEw_0VQmDDOn';
 const AI_FUNCTION='sugerir'; // nombre de la Edge Function (opcional)
-const APP_VERSION='1.13';const APP_DATE='10 oct 2026';
+const APP_VERSION='1.14';const APP_DATE='10 oct 2026';
 
 /* ===================== Sincronización (Supabase, una fila por usuario) ===================== */
 const SB_CONFIGURED=/^https:\/\/.+\.supabase\.co$/.test(SUPABASE_URL)&&!!SUPABASE_ANON_KEY&&SUPABASE_ANON_KEY!=='TU_ANON_KEY';
@@ -936,7 +943,7 @@ function parseHash(){const h=location.hash.replace('#','');const [r,p]=h.split('
 function renderTabs(){const t=ui.route==='asignatura'?'asignaturas':ui.route==='tool'?'estudio':ui.route;$('#tabs').innerHTML=TABS.map(x=>`<button class="${t===x[0]?'on':''}" onclick="go('${x[0]}')"><span class="ic">${x[2]}</span>${x[1]}</button>`).join('');
  $('#side').innerHTML=`<div class="logo"><i>🎓</i>Aula</div>${SIDE_TABS.map((x,i)=>`<button class="${t===x[0]?'on':''}" onclick="go('${x[0]}')">${x[2]}${x[1]}<kbd>${i+1}</kbd></button>`).join('')}<button class="${t==='mas'?'on':''}" onclick="go('mas')">${I.mas}Más<kbd>7</kbd></button><div class="spacer"></div><div class="foot">${esc(courseLabel())}<br>N: tarea · E: examen · C: clase<br><span style="opacity:.7">Aula v${APP_VERSION}</span></div>`;
  $('#fab').style.display=(ui.route==='mas'||ui.route==='tool')?'none':'flex'}
-function render(){parseHash();renderTabs();const app=$('#app');const map={hoy:viewHoy,horario:viewHorario,tareas:viewTareas,calendario:viewCalendario,asignaturas:viewAsignaturas,asignatura:viewAsignatura,mas:viewMas,tool:viewTool,estudio:viewEstudio};const prev=ui.lastRoute;const same=prev===ui.route&&ui.lastParam===ui.param;const y=window.scrollY;app.innerHTML=(map[ui.route]||viewHoy)();if(!same&&!ui.noAnim){app.classList.remove('enter');void app.offsetWidth;app.classList.add('enter');if(typeof countUp==='function')countUp()}ui.noAnim=false;ui.lastRoute=ui.route;ui.lastParam=ui.param;if(same)window.scrollTo(0,y);else window.scrollTo(0,0);setSync(cloud.status);fillNames()}
+function render(){parseHash();renderTabs();const app=$('#app');const map={hoy:viewHoy,horario:viewHorario,tareas:viewTareas,calendario:viewCalendario,asignaturas:viewAsignaturas,asignatura:viewAsignatura,mas:viewMas,tool:viewTool,estudio:viewEstudio};const prev=ui.lastRoute;const same=prev===ui.route&&ui.lastParam===ui.param;const y=app.scrollTop;app.innerHTML='<div class="page">'+(map[ui.route]||viewHoy)()+'</div>';if(!same&&!ui.noAnim){app.classList.remove('enter');void app.offsetWidth;app.classList.add('enter');if(typeof countUp==='function')countUp()}ui.noAnim=false;ui.lastRoute=ui.route;ui.lastParam=ui.param;if(same)app.scrollTop=y;else app.scrollTop=0;setSync(cloud.status);fillNames()}
 window.addEventListener('hashchange',render);
 const syncHTML=()=>`<span class="sync ${cloud.status}"><i class="d"></i><span></span></span>`;
 function topbar(title,extra){return `<div class="topbar"><h1>${title}</h1><div class="row">${extra||''}<button class="iconbtn" onclick="go('calendario')" aria-label="Calendario" title="Calendario">${I.cal}</button><button class="iconbtn" onclick="go('mas')" aria-label="Ajustes" title="Ajustes">${I.gear}</button></div></div>`}
@@ -1404,7 +1411,7 @@ document.addEventListener('focusin',e=>{const t=(e.target.tagName||'').toLowerCa
 document.addEventListener('focusout',()=>{setTimeout(()=>{const a=document.activeElement;const t=(a&&a.tagName||'').toLowerCase();if(!(t==='input'||t==='textarea')&&!kbOpen())document.body.classList.remove('kb')},60)});
 // Detección directa del teclado por el tamaño de la zona visible (iOS y Android)
 let vvBase=0;function kbOpen(){const vv=window.visualViewport;if(!vv)return false;vvBase=Math.max(vvBase,vv.height);return vv.height<vvBase*0.78}
-if(window.visualViewport){vvBase=window.visualViewport.height;const onVV=()=>{if(window.innerWidth>=960)return;if(kbOpen())document.body.classList.add('kb');else{const a=document.activeElement;const t=(a&&a.tagName||'').toLowerCase();if(!(t==='input'||t==='textarea'))document.body.classList.remove('kb')}};window.visualViewport.addEventListener('resize',onVV);window.visualViewport.addEventListener('scroll',onVV);window.addEventListener('orientationchange',()=>{vvBase=0;setTimeout(()=>{vvBase=window.visualViewport.height},400)})}
+if(window.visualViewport){vvBase=window.visualViewport.height;const onVV=()=>{if(window.innerWidth>=960)return;if(kbOpen())document.body.classList.add('kb');else{const a=document.activeElement;const t=(a&&a.tagName||'').toLowerCase();if(!(t==='input'||t==='textarea'))document.body.classList.remove('kb')}};window.visualViewport.addEventListener('resize',onVV);window.visualViewport.addEventListener('scroll',onVV);window.addEventListener('orientationchange',()=>{vvBase=0;setTimeout(()=>{vvBase=window.visualViewport.height},400)});window.visualViewport.addEventListener('resize',()=>{if(!kbOpen()){window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0}})}
 let rzT;window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{if(!$('#backdrop').classList.contains('open'))render()},200)});
 setInterval(()=>{if(ui.route==='hoy'&&!$('#backdrop').classList.contains('open')){ui.noAnim=true;render()}},30000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ui.route==='hoy'&&!$('#backdrop').classList.contains('open'))render()});
