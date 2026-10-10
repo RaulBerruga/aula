@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#5B4BE8">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4F4FA">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0F0F1A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Aula · Organizador universitario</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
@@ -603,7 +604,7 @@ function save(){state.updatedAt=Date.now();persistLocal();scheduleCloud()}
 const SUPABASE_URL='https://hoevbiwbhnymzvfqwsla.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_GsMAIZprQtY03dysiXTCEw_0VQmDDOn';
 const AI_FUNCTION='sugerir'; // nombre de la Edge Function (opcional)
-const APP_VERSION='1.15.1';const APP_DATE='10 oct 2026';
+const APP_VERSION='1.16';const APP_DATE='10 oct 2026';
 
 /* ===================== Sincronización (Supabase, una fila por usuario) ===================== */
 const SB_CONFIGURED=/^https:\/\/.+\.supabase\.co$/.test(SUPABASE_URL)&&!!SUPABASE_ANON_KEY&&SUPABASE_ANON_KEY!=='TU_ANON_KEY';
