@@ -429,6 +429,64 @@ textarea.notes{width:100%;min-height:220px;border:0;background:transparent;resiz
 .days button:active,.filters button:active{transform:scale(.95)}
 .sheet{animation:up .26s cubic-bezier(.2,.9,.3,1.1)}
 @media (prefers-reduced-motion:reduce){#app.enter,.prog i,.wk-bar i,.hero .bar i,.task.pop .box,.sheet{animation:none!important}}
+/* ===== Normalización: una sola escala para todo ===== */
+h1,.topbar h1,.shead h1,.auth .logo{font-size:1.5em;line-height:1.15}
+h2{font-size:1.15em;margin:24px 0 10px}
+h3{font-size:1.05em}
+.sub,.hint,.empty,.task .m,.cls .info,.plan .sub,.ev .w,.stat span,.res span,.tool span,.list .it span,.kv dt{line-height:1.45}
+.card,.task,.cls,.plan,.subj,.examcard,.goal,.exam,.stat,.tool,.list,.toggle,.cal,.tt,.grade-big .g{border-radius:18px}
+.card,.examcard,.goal,.exam,.cal,.list .it,.toggle{padding:16px}
+.task,.cls,.plan,.subj{padding:14px 16px}
+.stat,.tool,.grade-big .g,.res div{padding:14px}
+.card+.card,.task+.task,.cls+.cls,.plan+.plan,.subj+.subj,.examcard+.examcard{margin-top:10px}
+.task,.cls,.plan,.subj,.examcard,.exam,.goal{margin-top:10px}
+.btn{height:44px;padding:0 18px;border-radius:12px;font-size:.95em;line-height:1}
+.btn.small{height:36px;padding:0 14px;border-radius:10px;font-size:.88em;white-space:nowrap}
+.btn.block{width:100%}
+.iconbtn,.sheet .sh .btn{height:40px}
+.iconbtn{width:40px;border-radius:12px}
+.quick button{height:40px;padding:0 14px;font-size:.88em}
+.filters button,.tabs2 button{height:38px;padding:0 16px;font-size:.9em;display:inline-flex;align-items:center}
+.seg button{height:34px;padding:0 14px;font-size:.88em;display:inline-flex;align-items:center}
+.days button{height:58px;padding:0}
+.att button{height:38px;padding:0 6px}
+.cls .time,.plan .time{width:64px}
+.cls .bar,.plan .bar{width:5px}
+.stats{grid-auto-rows:1fr;gap:10px}
+.stat{display:flex;flex-direction:column;justify-content:flex-end;min-height:116px}
+.stat b{font-size:1.45em}
+.stat span{font-size:.84em}
+.tools{grid-auto-rows:1fr;gap:10px}
+.tool{min-height:148px;gap:6px}
+.tool b{font-size:.98em}
+.tool span{font-size:.84em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pill{height:24px;display:inline-flex;align-items:center;padding:0 10px;font-size:.8em}
+.chip{height:26px;padding:0 11px;font-size:.84em}
+.exam .n,.examcard .days{width:64px;padding:8px 4px}
+.examcard .days b,.exam .n b{font-size:1.4em}
+.res b,.grade-big .g b,.needs b{font-size:1.4em}
+.hero .big{font-size:1.8em}
+.hero .status,.hero .date{font-size:.86em}
+.kv{grid-template-columns:120px 1fr}
+.empty{padding:26px 16px}
+.empty .em{font-size:32px}
+.empty b{font-size:1.05em}
+.sheet .sh b{font-size:1.1em}
+.sheet .sh{padding:14px 16px 10px}
+.field{margin-top:12px}
+.field input,.field select,.field textarea{height:48px;padding:0 14px;border-radius:12px}
+.field textarea{height:auto;min-height:88px;padding:12px 14px}
+.menu button{padding:14px 16px;border-radius:16px}
+.menu button i{width:40px;height:40px;border-radius:12px}
+.goal .ring{width:56px;height:56px}
+.timer .ring{width:230px;height:230px}
+.wk-bar,.prog{height:8px}
+.side button{height:44px;padding:0 14px}
+.tabbar button .ic{width:52px;height:30px}
+.h-std{font-weight:800;font-size:1em}
+.n-big{font-size:1.6em;font-weight:800;letter-spacing:-.02em;line-height:1}
+.i-tool{font-style:normal;font-size:24px;width:40px;text-align:center;flex:none}
+@media (min-width:640px){.tools{gap:12px}.stats{gap:12px}}
 </style>
 </head>
 <body>
@@ -507,7 +565,7 @@ function save(){state.updatedAt=Date.now();persistLocal();scheduleCloud()}
 const SUPABASE_URL='https://hoevbiwbhnymzvfqwsla.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_GsMAIZprQtY03dysiXTCEw_0VQmDDOn';
 const AI_FUNCTION='sugerir'; // nombre de la Edge Function (opcional)
-const APP_VERSION='1.6';const APP_DATE='10 oct 2026';
+const APP_VERSION='1.7';const APP_DATE='10 oct 2026';
 
 /* ===================== Sincronización (Supabase, una fila por usuario) ===================== */
 const SB_CONFIGURED=/^https:\/\/.+\.supabase\.co$/.test(SUPABASE_URL)&&!!SUPABASE_ANON_KEY&&SUPABASE_ANON_KEY!=='TU_ANON_KEY';
@@ -793,7 +851,7 @@ function openSetup(step){
  }else{
   const cat=catalogFor(P);const uniCats=cat?[]:catalogForUni(P).filter(c=>c.years[P.year]);
   const body=`<div class="hint" style="margin-top:0">Elige cómo quieres cargar las asignaturas de ${P.year}º de ${esc(P.degree)}. Luego podrás editarlas una a una.</div><div class="menu" style="margin-top:12px">
-  ${cat?`<button onclick="closeSheet();reviewSubjects(cat2rows(catalogFor()),'Plan oficial · '+catalogFor().label)"><i>📘</i><div>Plan oficial<span>${esc(cat.label)} · ${cat.years[P.year].length} asignaturas de ${P.year}º</span></div></button><button onclick="closeSheet();go('tool','planestudios')"><i>🗂️</i><div>Ver el plan completo<span>Todos los cursos y cuatrimestres, con créditos y tipo</span></div></button>`:''}
+  ${cat?`<button onclick="closeSheet();reviewSubjects(cat2rows(catalogFor()),'Plan oficial · '+catalogFor().label)"><i>📘</i><div>Plan oficial<span>${esc(cat.label)} · ${cat.years[P.year].length} asignaturas de ${P.year}º</span></div></button><button onclick="closeSheet();go('tool','planestudios')"><i>🗂️</i><div>Ver el plan de la carrera<span>Todos los cursos y cuatrimestres, con créditos y tipo</span></div></button>`:''}
   ${uniCats.length?`<div class="hint" style="margin:4px 0 8px">No encuentro «${esc(P.degree)}», pero tengo estos planes de tu universidad:</div>${uniCats.map(c=>`<button onclick="closeSheet();reviewSubjects(cat2rows(CATALOG.find(x=>x.id==='${c.id}')),'Plan oficial · ${esc(c.label)}')"><i>📘</i><div>${esc(c.label)}<span>${c.years[P.year].length} asignaturas de ${P.year}º</span></div></button>`).join('')}`:''}
   <button onclick="closeSheet();aiSuggest()"><i>✨</i><div>Sugerir con IA<span>Propone las asignaturas de tu curso para que las revises</span></div></button>
   <button onclick="closeSheet();openPasteList()"><i>📋</i><div>Pegar una lista<span>Copia los nombres desde tu guía docente o campus virtual</span></div></button>
@@ -839,7 +897,7 @@ function render(){parseHash();renderTabs();const app=$('#app');const map={hoy:vi
 window.addEventListener('hashchange',render);
 const syncHTML=()=>`<span class="sync ${cloud.status}"><i class="d"></i><span></span></span>`;
 function topbar(title,extra){return `<div class="topbar"><h1>${title}</h1><div class="row">${extra||''}<button class="iconbtn" onclick="go('calendario')" aria-label="Calendario" title="Calendario">${I.cal}</button><button class="iconbtn" onclick="go('mas')" aria-label="Ajustes" title="Ajustes">${I.gear}</button></div></div>`}
-const QUICK=[['timer','⏱️','Temporizador'],['plan','📖','Plan'],['examenes','🎓','Exámenes'],['planestudios','🗂️','Plan de estudios'],['asistencia','🎯','Asistencia'],['nota','📐','Nota']];
+const QUICK=[['timer','⏱️','Temporizador'],['plan','📖','Planificador'],['examenes','🎓','Exámenes'],['planestudios','🗂️','Carrera'],['asistencia','🎯','Asistencia'],['nota','📐','Nota']];
 function quickStrip(){return `<div class="quick">${QUICK.map(q=>`<button onclick="go('tool','${q[0]}')"><span>${q[1]}</span>${q[2]}</button>`).join('')}<button onclick="go('calendario')"><span>📅</span>Calendario</button></div>`}
 function subjChip(s){return s?`<span class="chip"><i class="dot" style="background:${s.color}"></i>${esc(s.short||s.name)}</span>`:''}
 function emptyBox(title,text,btn,em){return `<div class="card empty">${em?`<span class="em">${em}</span>`:''}<b>${title}</b>${text}${btn||''}</div>`}
@@ -851,21 +909,21 @@ function heroHTML(){
  let inner='';
  const sem=semesterOn(t);
  if(cur){const s=getSubject(cur.subjectId);const total=toMin(cur.end)-toMin(cur.start),done=nowM-toMin(cur.start);const p=Math.min(100,Math.round(done/total*100));
-  inner=`<div class="status"><i class="pulse"></i>Ahora mismo · ${KINDS[cur.kind]||''}</div><div class="big">${esc(s?s.name:'Clase')}</div><div class="meta">${cur.start}–${cur.end}${cur.room?' · '+esc(cur.room):''}${s&&s.teacher?' · '+esc(s.teacher):''}</div><div class="bar"><i style="width:${p}%"></i></div><div class="count"><span>${fmtDur(done)} de clase</span><span>Termina en ${fmtDur(toMin(cur.end)-nowM)}</span></div>`;
+  inner=`<div class="status"><i class="pulse"></i>En clase ahora · ${KINDS[cur.kind]||''}</div><div class="big">${esc(s?s.name:'Clase')}</div><div class="meta">${cur.start}–${cur.end}${cur.room?' · '+esc(cur.room):''}${s&&s.teacher?' · '+esc(s.teacher):''}</div><div class="bar"><i style="width:${p}%"></i></div><div class="count"><span>${fmtDur(done)} de clase</span><span>Termina en ${fmtDur(toMin(cur.end)-nowM)}</span></div>`;
  }else if(next){const s=getSubject(next.subjectId);const wait=toMin(next.start)-nowM;
   inner=`<div class="status">Siguiente clase · en ${fmtDur(wait)}</div><div class="big">${esc(s?s.name:'Clase')}</div><div class="meta">${next.start}–${next.end}${next.room?' · '+esc(next.room):''} · ${KINDS[next.kind]||''}</div>`;
  }else if(cls.length){const nx=nextClassFrom(t);inner=`<div class="status">Clases terminadas por hoy 🎉</div><div class="big">Hasta la próxima</div><div class="meta">${cls.length} ${cls.length===1?'clase':'clases'} hoy. ${nx?'Próxima: '+(nx.days===1?'mañana':DAYS[dow(parseISO(nx.iso))].toLowerCase()+' '+parseISO(nx.iso).getDate())+' a las '+nx.cls.start+' · '+esc((getSubject(nx.cls.subjectId)||{}).short||''):'Sin más clases en 3 semanas.'}</div>`}
  else{const reason=isHoliday(t)?'Día sin clase marcado en tus ajustes.':!sem?'Hoy está fuera del periodo lectivo según tus fechas (revísalas en Ajustes).':!state.classes.length?'Aún no has añadido tu horario.':'Nada en el horario para hoy.';const nx=nextClassFrom(t);inner=`<div class="status">Sin clases hoy</div><div class="big">Día libre ☀️</div><div class="meta">${reason}${nx?' Próxima clase: '+(nx.days===1?'mañana':DAYS[dow(parseISO(nx.iso))].toLowerCase()+' '+parseISO(nx.iso).getDate())+' a las '+nx.cls.start+' · '+esc((getSubject(nx.cls.subjectId)||{}).short||'')+'.':''}</div>`}
  return `<div class="hero"><div class="date"><span class="clickable" onclick="go('calendario')">${fmtLong(t)} ›</span><span class="row" style="gap:8px">${accountHTML()}${syncHTML()}</span></div><div class="hello">${greeting()}<span class="hello-name"></span> 👋</div>${inner}</div>`;
 }
-function attButtons(c,iso){const k=attKey(c.id,iso);const v=state.attendance[k]||'';return `<div class="att"><button class="${v==='p'?'on-p':''}" onclick="setAtt('${c.id}','${iso}','p')">Asistí</button><button class="${v==='a'?'on-a':''}" onclick="setAtt('${c.id}','${iso}','a')">Falté</button><button class="${v==='j'?'on-j':''}" onclick="setAtt('${c.id}','${iso}','j')">Justificada</button></div>`}
+function attButtons(c,iso){const k=attKey(c.id,iso);const v=state.attendance[k]||'';return `<div class="att"><button class="${v==='p'?'on-p':''}" onclick="setAtt('${c.id}','${iso}','p')">Presente</button><button class="${v==='a'?'on-a':''}" onclick="setAtt('${c.id}','${iso}','a')">Falta</button><button class="${v==='j'?'on-j':''}" onclick="setAtt('${c.id}','${iso}','j')">Justificada</button></div>`}
 function setAtt(cid,iso,v){const k=attKey(cid,iso);if(state.attendance[k]===v)delete state.attendance[k];else state.attendance[k]=v;save();render()}
 function classRow(c,iso,opts){const s=getSubject(c.subjectId);const nowM=new Date().getHours()*60+new Date().getMinutes();const isToday=iso===todayISO();const st=isToday&&toMin(c.start)<=nowM&&nowM<toMin(c.end)?'now':isToday&&toMin(c.end)<=nowM?'past':'';return `<div class="cls ${st}"><div class="bar" style="background:${s?s.color:'#999'}"></div><div class="time">${c.start}<small>${c.end}</small></div><div class="grow"><div class="name" onclick="openClassForm('${c.id}')">${esc(s?s.name:'Clase')}</div><div class="info">${KINDS[c.kind]||'Clase'}${c.room?' · '+esc(c.room):''}${s&&s.teacher?' · '+esc(s.teacher):''}${c.note?' · '+esc(c.note):''}</div>${opts&&opts.att&&(!isToday||toMin(c.start)<=nowM)?attButtons(c,iso):''}</div><button class="iconbtn" style="box-shadow:none;background:transparent" onclick="openClassForm('${c.id}')" aria-label="Editar clase">${I.edit}</button></div>`}
 function norm(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
 function filterTasks(q){q=norm(q.trim());document.querySelectorAll('.task[data-q]').forEach(el=>{el.style.display=!q||el.dataset.q.includes(q)?'':'none'});document.querySelectorAll('.grp').forEach(g=>{let n=g.nextElementSibling,any=false;while(n&&!n.classList.contains('grp')){if(n.classList.contains('task')&&n.style.display!=='none')any=true;n=n.nextElementSibling}g.style.display=any?'':'none'})}
 function taskRow(t){const s=getSubject(t.subjectId);const late=!t.done&&t.date&&t.date<todayISO();const dateTxt=t.date?relDay(t.date)+(t.time?' '+t.time:''):'';return `<div class="task ${t.done?'done':''} ${ui.flash===t.id?'pop':''}" data-q="${esc(norm(t.title+' '+(s?s.name+' '+s.short:'')+' '+TYPES[t.type]))}"><button class="box" onclick="toggleTask('${t.id}')" aria-label="Completar">${I.check}</button><div class="grow" onclick="openTaskForm('${t.id}')"><div class="t">${esc(t.title)}</div><div class="m"><span class="ty">${TYPE_ICON[t.type]||''} ${TYPES[t.type]||'Tarea'}</span>${subjChip(s)}${dateTxt?`<span class="${late?'late':''}">${late?'Atrasada · ':''}${dateTxt}</span>`:''}${Number(t.weight)>0?`<span class="pill sun">${t.weight}% nota</span>`:''}${t.grade!=null&&t.grade!==''?`<span class="pill ${Number(t.grade)>=5?'green':'red'}">${n1(Number(t.grade))}</span>`:''}${(t.items||[]).length?`<span class="pill ${examProgress(t).done===examProgress(t).total?'green':'blue'}">${examProgress(t).done}/${examProgress(t).total} ${t.type==='examen'?'temas':'pasos'}</span>`:''}</div></div><i class="pri p${t.priority||0}"></i></div>`}
-function planRow(p,iso,opts){const s=getSubject(p.subjectId);const done=iso?planDoneOn(p.id,iso):false;const canMark=iso&&iso<=todayISO();return `<div class="plan ${done?'done':''}"><div class="bar" style="color:${s?s.color:'var(--ink-3)'}"></div><div class="time">${p.start}<small>${p.end}</small></div><div class="grow"><div class="t" onclick="openPlanForm('${p.id}')">${esc(p.topic||('Estudiar '+(s?s.short||s.name:'')))}</div><div class="sub">${s?esc(s.name)+' · ':''}${fmtDur(toMin(p.end)-toMin(p.start))}${p.note?' · '+esc(p.note):''}</div>${opts&&opts.actions?`<div class="row" style="margin-top:10px;gap:8px"><button class="btn small ${done?'':'soft'}" onclick="markPlan('${p.id}','${iso}')" ${canMark?'':'disabled'}>${done?'✓ Hecha':'Marcar hecha'}</button>${done?'':`<button class="btn small" onclick="tm.subjectId='${p.subjectId||''}';go('tool','timer')">⏱ Empezar</button>`}</div>`:''}</div><button class="iconbtn" style="box-shadow:none;background:transparent" onclick="openPlanForm('${p.id}')" aria-label="Editar">${I.edit}</button></div>`}
-function examCard(t){const s=getSubject(t.subjectId);const n=daysDiff(t.date);const p=examProgress(t);const cls=n<=3?'':n<=7?'soon':'ok';return `<div class="examcard clickable" onclick="openTaskForm('${t.id}')"><div class="top"><div class="days ${cls}"><b>${n}</b><span>${n===1?'día':'días'}</span></div><div class="grow"><div class="t" style="font-weight:800;font-size:1.05em">${esc(t.title)}</div><div class="sub">${s?esc(s.name)+' · ':''}${fmtDate(t.date)}${t.time?' · '+t.time:''}${Number(t.weight)>0?' · '+t.weight+'% de la nota':''}</div></div></div>${p.total?`<div class="prog"><i style="width:${p.pct}%"></i></div><div class="row" style="justify-content:space-between;margin-top:6px"><span class="sub">${p.done} de ${p.total} temas</span><span class="pill ${p.done===p.total?'green':n<=3?'red':'blue'}">${examPace(t)}</span></div>`:`<div class="hint">Sin temario. Toca para añadir los temas que entran y seguir tu progreso.</div>`}</div>`}
+function planRow(p,iso,opts){const s=getSubject(p.subjectId);const done=iso?planDoneOn(p.id,iso):false;const canMark=iso&&iso<=todayISO();return `<div class="plan ${done?'done':''}"><div class="bar" style="color:${s?s.color:'var(--ink-3)'}"></div><div class="time">${p.start}<small>${p.end}</small></div><div class="grow"><div class="t" onclick="openPlanForm('${p.id}')">${esc(p.topic||('Estudiar '+(s?s.short||s.name:'')))}</div><div class="sub">${s?esc(s.name)+' · ':''}${fmtDur(toMin(p.end)-toMin(p.start))}${p.note?' · '+esc(p.note):''}</div>${opts&&opts.actions?`<div class="row" style="margin-top:10px;gap:8px"><button class="btn small ${done?'':'soft'}" onclick="markPlan('${p.id}','${iso}')" ${canMark?'':'disabled'}>${done?'Hecha ✓':'Marcar hecha'}</button>${done?'':`<button class="btn small" onclick="tm.subjectId='${p.subjectId||''}';go('tool','timer')">Empezar</button>`}</div>`:''}</div><button class="iconbtn" style="box-shadow:none;background:transparent" onclick="openPlanForm('${p.id}')" aria-label="Editar">${I.edit}</button></div>`}
+function examCard(t){const s=getSubject(t.subjectId);const n=daysDiff(t.date);const p=examProgress(t);const cls=n<=3?'':n<=7?'soon':'ok';return `<div class="examcard clickable" onclick="openTaskForm('${t.id}')"><div class="top"><div class="days ${cls}"><b>${n}</b><span>${n===1?'día':'días'}</span></div><div class="grow"><div class="t h-std">${esc(t.title)}</div><div class="sub">${s?esc(s.name)+' · ':''}${fmtDate(t.date)}${t.time?' · '+t.time:''}${Number(t.weight)>0?' · '+t.weight+'% de la nota':''}</div></div></div>${p.total?`<div class="prog"><i style="width:${p.pct}%"></i></div><div class="row" style="justify-content:space-between;margin-top:6px"><span class="sub">${p.done} de ${p.total} temas</span><span class="pill ${p.done===p.total?'green':n<=3?'red':'blue'}">${examPace(t)}</span></div>`:`<div class="hint">Sin temario. Toca para añadir los temas que entran y seguir tu progreso.</div>`}</div>`}
 function toggleTask(id){const t=state.tasks.find(x=>x.id===id);if(!t)return;t.done=!t.done;t.doneAt=t.done?Date.now():null;ui.flash=t.done?id:null;save();ui.noAnim=true;render();if(t.done){toast('Completada ✅');if(navigator.vibrate)navigator.vibrate(30)}}
 function viewHoy(){
  const t=todayISO();const cls=classesOn(t);
@@ -878,12 +936,12 @@ function viewHoy(){
  const exams=pend.filter(x=>x.type==='examen'&&x.date&&daysDiff(x.date)>=0);
  const {mon,sun}=weekRange(t);const sm=studyMinutes(mon,sun);
  html+=`<div class="cols"><div class="col">`;
- html+=`<div class="stats"><div class="stat c1" onclick="go('horario')"><span class="em">🏫</span><b>${weekHours()?fmtDur(weekHours()).replace(' min','m').replace(' h','h'):'0h'}</b><span>Clase esta semana</span></div><div class="stat c2" onclick="go('tareas')"><span class="em">✅</span><b>${pend.length}</b><span>Tareas pendientes</span></div><div class="stat c3" onclick="go('tool','timer')"><span class="em">⏱️</span><b>${sm?fmtDur(sm).replace(' min','m').replace(' h','h'):'0h'}</b><span>Estudio esta semana</span></div></div>`;
+ html+=`<h2 style="margin-top:14px">Esta semana</h2><div class="stats"><div class="stat c1 clickable" onclick="go('horario')"><span class="em">🏫</span><b>${weekHours()?fmtDur(weekHours()).replace(' min','m').replace(' h','h'):'0h'}</b><span>Horas de clase</span></div><div class="stat c2 clickable" onclick="go('tareas')"><span class="em">✅</span><b>${pend.length}</b><span>Tareas pendientes</span></div><div class="stat c3 clickable" onclick="go('tool','timer')"><span class="em">⏱️</span><b>${sm?fmtDur(sm).replace(' min','m').replace(' h','h'):'0h'}</b><span>Horas de estudio</span></div></div>`;
  html+=goalHTML();
  const nextExam=upcomingExams()[0];
  if(nextExam){html+=examCard(nextExam);if(exams.length>1)html+=`<div class="linkrow"><span></span><button onclick="go('tool','examenes')">Ver los ${exams.length} exámenes</button></div>`}
  const wdT=dow(new Date());const todayPlans=plansOn(wdT);
- if(todayPlans.length||state.plans.length){html+=`<h2>Estudio de hoy <small>${todayPlans.length?fmtDur(todayPlans.reduce((a,p)=>a+toMin(p.end)-toMin(p.start),0)):''}</small></h2>`;html+=todayPlans.length?todayPlans.map(p=>planRow(p,t,{actions:true})).join(''):`<div class="card empty" style="padding:18px"><span class="em">🌿</span>Hoy no tienes estudio planificado. <button class="btn small" style="margin-top:10px" onclick="go('tool','plan')">Ver mi plan</button></div>`}
+ if(todayPlans.length||state.plans.length){html+=`<h2>Estudio de hoy <small>${todayPlans.length?fmtDur(todayPlans.reduce((a,p)=>a+toMin(p.end)-toMin(p.start),0)):''}</small></h2>`;html+=todayPlans.length?todayPlans.map(p=>planRow(p,t,{actions:true})).join(''):`<div class="card empty" style="padding:18px"><span class="em">🌿</span>Hoy no tienes estudio planificado. <button class="btn small" style="margin-top:10px" onclick="go('tool','plan')">Ver planificador</button></div>`}
  html+=`<h2>Clases de hoy <small>${cls.length?cls.length:''}</small></h2>`;
  html+=cls.length?cls.map(c=>classRow(c,t,{att:true})).join(''):`<div class="card empty" style="padding:18px"><span class="em">${state.classes.length?'☕':'🗓️'}</span>${state.classes.length?'Sin clases hoy.':'Añade tu horario con el botón + o desde Horario.'}</div>`;
  html+=`</div><div class="col">`;
@@ -891,7 +949,7 @@ function viewHoy(){
  html+=soon.length?soon.slice(0,8).map(taskRow).join(''):`<div class="card empty" style="padding:18px"><span class="em">🧘</span>Nada que entregar ni exámenes en una semana.</div>`;
  if(soon.length>8)html+=`<div class="linkrow"><span></span><button onclick="ui.taskFilter='semana';go('tareas')">Ver todas (${soon.length})</button></div>`;
  const undated=pend.filter(x=>!x.date).length;if(undated)html+=`<div class="hint center" style="margin-top:10px">${undated} ${undated===1?'tarea':'tareas'} sin fecha en Tareas.</div>`;
- html+=`<div class="card clickable" style="margin-top:16px" onclick="go('estudio')"><div class="row"><div class="grow"><b>Todo para estudiar</b><div class="sub">Plan semanal, exámenes por temas, temporizador, registro y calculadoras.</div></div><span class="pill blue">Estudio ›</span></div></div>`;
+ html+=`<div class="card clickable" style="margin-top:16px" onclick="go('estudio')"><div class="row"><i class="i-tool">🎒</i><div class="grow"><b class="h-std">Todo para estudiar</b><div class="sub">Planificador, exámenes, temporizador, registro y calculadoras.</div></div><span class="pill blue">Abrir</span></div></div>`;
  html+=`</div></div>`;
  return html;
 }
@@ -913,8 +971,8 @@ function viewHorario(){
   const {mon}=weekRange(t);const iso=addDays(mon,ui.day-1);
   html+=`<div class="sub" style="margin:6px 0 2px">${DAYS[ui.day]}${dayCls.length?' · '+fmtDur(dayCls.reduce((s,c)=>s+toMin(c.end)-toMin(c.start),0))+' de clase':''}</div>`;
   html+=dayCls.length?dayCls.map(c=>classRow(c,iso,{att:semesterOn(iso)===ui.ttSem&&iso<=t})).join(''):emptyBox('Sin clases el '+DAYS[ui.day].toLowerCase(),'Añade una con el botón +.',`<button class="btn primary" onclick="openClassForm(null,{day:${ui.day}})">Añadir clase</button>`);
- const dayPlans=plansOn(ui.day);if(dayPlans.length){html+=`<h2>Estudio planificado <small>${fmtDur(dayPlans.reduce((a,p)=>a+toMin(p.end)-toMin(p.start),0))}</small></h2>`+dayPlans.map(p=>planRow(p,iso,{actions:iso<=t})).join('')}
- html+=`<div class="row" style="justify-content:center;margin-top:14px"><button class="btn small" onclick="openPlanForm(null,{day:${ui.day}})">+ Sesión de estudio el ${DAYS[ui.day].toLowerCase()}</button></div>`;
+ const dayPlans=plansOn(ui.day);if(dayPlans.length){html+=`<h2>Sesiones de estudio <small>${fmtDur(dayPlans.reduce((a,p)=>a+toMin(p.end)-toMin(p.start),0))}</small></h2>`+dayPlans.map(p=>planRow(p,iso,{actions:iso<=t})).join('')}
+ html+=`<div class="row" style="justify-content:center;margin-top:14px"><button class="btn small" onclick="openPlanForm(null,{day:${ui.day}})">Añadir sesión de estudio</button></div>`;
  }else{
   let h0=state.settings.dayStart,h1=state.settings.dayEnd;all.forEach(c=>{h0=Math.min(h0,Math.floor(toMin(c.start)/60));h1=Math.max(h1,Math.ceil(toMin(c.end)/60))});state.plans.forEach(c=>{h0=Math.min(h0,Math.floor(toMin(c.start)/60));h1=Math.max(h1,Math.ceil(toMin(c.end)/60))});const HOUR=44;const H=(h1-h0)*HOUR;
   html+=`<div class="tt" style="--cols:${maxDay};--h:${H}px;--hour:${HOUR}px"><div class="tt-in"><div></div>${Array.from({length:maxDay},(_,i)=>`<div class="hd ${i+1===wdT?'today':''}">${DAYS_S[i+1]}</div>`).join('')}<div class="hours">${Array.from({length:h1-h0+1},(_,i)=>`<span style="top:${i*HOUR}px">${pad(h0+i)}</span>`).join('')}</div>${Array.from({length:maxDay},(_,i)=>{const d=i+1;return `<div class="col">${all.filter(c=>c.day===d).map(c=>{const s=getSubject(c.subjectId);const top=(toMin(c.start)-h0*60)/60*HOUR;const hgt=(toMin(c.end)-toMin(c.start))/60*HOUR;return `<div class="blk" style="top:${top}px;height:${Math.max(hgt-2,18)}px;background:${s?s.color:'#888'};color:${textColor(s?s.color:'#888')}" onclick="openClassForm('${c.id}')">${esc(s?(s.short||s.name):'Clase')}<small>${c.start}${c.room?' · '+esc(c.room):''}</small></div>`}).join('')}${plansOn(d).map(p=>{const s=getSubject(p.subjectId);const col=s?s.color:'#8E90AD';const top=(toMin(p.start)-h0*60)/60*HOUR;const hgt=(toMin(p.end)-toMin(p.start))/60*HOUR;return `<div class="blk plan-blk" style="top:${top}px;height:${Math.max(hgt-2,18)}px;background:${col}22;border-color:${col}" onclick="openPlanForm('${p.id}')">📖 ${esc(s?(s.short||s.name):'Estudio')}<small>${p.start}${p.topic?' · '+esc(p.topic):''}</small></div>`}).join('')}</div>`}).join('')}</div></div>`;
@@ -951,7 +1009,7 @@ function viewCalendario(){
  html+=`<div class="cols"><div class="col"><div class="cal"><div class="nav"><button class="iconbtn" onclick="ui.calMonth='${prev}';render()" aria-label="Mes anterior">‹</button><b>${MONTHS[m-1]} ${y}</b><div class="row"><button class="btn small" onclick="ui.calMonth='${t.slice(0,7)}';ui.calSel='${t}';render()">Hoy</button><button class="iconbtn" onclick="ui.calMonth='${next}';render()" aria-label="Mes siguiente">›</button></div></div><div class="wd">${['L','M','X','J','V','S','D'].map(x=>`<span>${x}</span>`).join('')}</div><div class="grid">${cells.map(c=>{const ts=state.tasks.filter(x=>x.date===c.iso&&!x.done);const dots=[...new Set(ts.map(x=>x.type==='examen'?'#E5484D':(getSubject(x.subjectId)||{}).color||'#64748B'))].slice(0,3);const hc=!c.out&&classesOn(c.iso).length;return `<button class="day ${c.out?'out':''} ${c.iso===t?'today':''} ${c.iso===ui.calSel?'sel':''} ${isHoliday(c.iso)?'hol':''} ${hc?'hascls':''}" onclick="ui.calSel='${c.iso}';render()">${Number(c.iso.slice(8))}<div class="dots">${dots.map(d=>`<i style="background:${d}"></i>`).join('')}</div></button>`}).join('')}</div></div>`;
  const sel=ui.calSel;const cls=classesOn(sel);const ts=state.tasks.filter(x=>x.date===sel).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
  html+=`</div><div class="col">`;
- html+=`<div class="row" style="justify-content:space-between;margin-top:18px"><h2 style="margin:0">${fmtLong(sel)}</h2><button class="btn small" onclick="openTaskForm(null,{date:'${sel}'})">+ Tarea</button></div>`;
+ html+=`<div class="row" style="justify-content:space-between;margin-top:18px"><h2 style="margin:0">${fmtLong(sel)}</h2><button class="btn small" onclick="openTaskForm(null,{date:'${sel}'})">Añadir tarea</button></div>`;
  if(isHoliday(sel))html+=`<div class="hint" style="margin-top:4px">Día sin clase (festivo o marcado por ti).</div>`;
  if(cls.length)html+=`<div class="sub" style="margin-top:8px">Clases</div>`+cls.map(c=>classRow(c,sel,{att:sel<=t})).join('');
  if(ts.length)html+=`<div class="sub" style="margin-top:12px">Tareas y exámenes</div>`+ts.map(taskRow).join('');
@@ -967,9 +1025,9 @@ function viewAsignaturas(){
  let html=topbar('Asignaturas');
  if(!state.subjects.length)return html+emptyBox('Sin asignaturas todavía',state.settings.profile.setup?'Cárgalas desde un plan oficial, con IA o pegando una lista.':'Primero configura tu curso.',`<div class="row" style="justify-content:center;flex-wrap:wrap"><button class="btn primary" onclick="${state.settings.profile.setup?'openSetup(3)':'openSetup(1)'}">${state.settings.profile.setup?'Elegir asignaturas':'Configurar mi curso'}</button><button class="btn" onclick="openSubjectForm()">Crear a mano</button></div>`);
  const cur=currentSemester();const ca=courseAverage();const ects=state.subjects.reduce((a,s)=>a+Number(s.credits||0),0);
- html+=`<div class="card" style="margin-top:4px"><div class="row"><div class="grow"><b style="font-size:15px">Media del curso</b><div class="sub">${ca?`Ponderada por ECTS · ${ca.n} de ${state.subjects.length} asignaturas con notas`:'Aparecerá cuando registres notas en alguna asignatura'}</div></div><div style="text-align:right"><b style="font-size:28px;font-weight:800;letter-spacing:-.02em">${ca?n1(ca.avg):'–'}</b><div class="hint" style="margin:0">${ects} ECTS</div></div></div></div>`;
+ html+=`<div class="card" style="margin-top:4px"><div class="row"><div class="grow"><b class="h-std">Media del curso</b><div class="sub">${ca?`Ponderada por ECTS · ${ca.n} de ${state.subjects.length} asignaturas con notas`:'Aparecerá cuando registres notas en alguna asignatura'}</div></div><div style="text-align:right"><b class="n-big">${ca?n1(ca.avg):'–'}</b><div class="hint" style="margin:0">${ects} ECTS</div></div></div></div>`;
  [...semIds(),'anual'].forEach(sem=>{const ss=state.subjects.filter(s=>s.semester===sem).sort((a,b)=>a.name.localeCompare(b.name));if(!ss.length)return;const cred=ss.reduce((a,s)=>a+Number(s.credits||0),0);html+=`<h2>${SEM_NAME[sem]} <small>${cred} ECTS${sem===cur?' · en curso':''}</small></h2><div class="subjgrid">`;html+=ss.map(s=>{const g=gradeStats(s.id);const p=pendingTasks(s.id).length;const at=attStats(s.id);return `<div class="subj clickable" onclick="go('asignatura','${s.id}')"><div class="ab" style="background:${s.color};color:${textColor(s.color)}">${esc(initials(s))}</div><div class="grow"><div class="n ellip">${esc(s.name)}</div><div class="s">${s.year?s.year+'º · ':''}${s.credits} ECTS · ${STYPE_ALL[s.type]||''}${s.teacher?' · '+esc(s.teacher):''}</div><div class="s" style="margin-top:4px">${p?`<span class="pill ${p?'blue':''}">${p} pendiente${p===1?'':'s'}</span> `:''}${at.a?`<span class="pill red">${at.a} falta${at.a===1?'':'s'}</span> `:''}${g.gW?`<span class="pill ${g.avg>=5?'green':'amber'}">${g.gW}% evaluado</span>`:''}</div></div><div class="k"><b>${g.avg!=null?n1(g.avg):'–'}</b><span>media</span></div></div>`}).join('')+'</div>'});
- html+=`<div class="row" style="justify-content:center;margin-top:16px;gap:8px;flex-wrap:wrap"><button class="btn" onclick="openSubjectForm()">+ Nueva asignatura</button><button class="btn soft" onclick="go('tool','planestudios')">🗂️ Plan de estudios</button></div>`;
+ html+=`<div class="row" style="justify-content:center;margin-top:16px;gap:8px;flex-wrap:wrap"><button class="btn" onclick="openSubjectForm()">Añadir asignatura</button><button class="btn soft" onclick="go('tool','planestudios')">Plan de la carrera</button></div>`;
  return html;
 }
 function viewAsignatura(){
@@ -983,11 +1041,11 @@ function viewAsignatura(){
   html+=`<h2>Información</h2><div class="card"><dl class="kv">${[['Profesor/a',s.teacher],['Email',s.email?`<a href="mailto:${esc(s.email)}">${esc(s.email)}</a>`:''],['Despacho',s.office],['Tutorías',s.hours],['Aula',s.room],['Enlace',s.link?`<a href="${esc(s.link)}" target="_blank" rel="noopener">Abrir</a>`:'']].filter(x=>x[1]).map(x=>`<dt>${x[0]}</dt><dd>${x[0]==='Email'||x[0]==='Enlace'?x[1]:esc(x[1])}</dd>`).join('')||'<dd class="muted" style="grid-column:1/-1">Sin datos. Pulsa Editar para añadir profesor, tutorías, aula…</dd>'}</dl>${s.notes?`<div class="sub" style="margin-top:10px;white-space:pre-wrap">${esc(s.notes)}</div>`:''}</div>`;
   html+=`<h2>Horario <small>${cls.length?fmtDur(cls.reduce((a,c)=>a+toMin(c.end)-toMin(c.start),0))+'/semana':''}</small></h2>`;
   html+=cls.length?cls.map(c=>`<div class="cls"><div class="bar" style="background:${s.color}"></div><div class="time">${c.start}<small>${c.end}</small></div><div class="grow"><div class="name">${DAYS[c.day]}</div><div class="info">${KINDS[c.kind]||''}${c.room?' · '+esc(c.room):''}</div></div><button class="iconbtn" style="box-shadow:none;background:transparent" onclick="openClassForm('${c.id}')">${I.edit}</button></div>`).join(''):`<div class="card empty" style="padding:16px">Sin horas asignadas.</div>`;
-  html+=`<div class="row" style="justify-content:center;margin-top:10px"><button class="btn small" onclick="openClassForm(null,{subjectId:'${s.id}'})">+ Añadir clase</button></div>`;
+  html+=`<div class="row" style="justify-content:center;margin-top:10px"><button class="btn small" onclick="openClassForm(null,{subjectId:'${s.id}'})">Añadir clase</button></div>`;
   const pend=pendingTasks(s.id).sort((a,b)=>(a.date||'9').localeCompare(b.date||'9'));
   html+=`</div><div class="col">`;
   html+=`<h2>Pendientes <small>${pend.length||''}</small></h2>`+(pend.length?pend.map(taskRow).join(''):`<div class="card empty" style="padding:16px">Nada pendiente.</div>`);
-  html+=`<div class="row" style="justify-content:center;margin-top:10px"><button class="btn small" onclick="openTaskForm(null,{subjectId:'${s.id}'})">+ Nueva tarea</button></div>`;
+  html+=`<div class="row" style="justify-content:center;margin-top:10px"><button class="btn small" onclick="openTaskForm(null,{subjectId:'${s.id}'})">Añadir tarea</button></div>`;
   html+=`</div></div>`;
  }else if(ui.subjTab==='eval'){
   html+=`<div class="grade-big"><div class="g"><b>${g.avg!=null?n1(g.avg):'–'}</b><span>Media de lo evaluado</span></div><div class="g"><b>${n1(g.secured)}</b><span>Puntos asegurados /10</span></div></div>`;
@@ -995,12 +1053,12 @@ function viewAsignatura(){
   else if(g.items.length&&g.remaining===0){const fin=g.secured;html+=`<div class="card" style="margin-top:10px"><h3>Nota final estimada: ${n1(fin)}</h3><div class="hint">${fin>=9?'Sobresaliente':fin>=7?'Notable':fin>=5?'Aprobado':'Suspenso'} · todo evaluado</div></div>`}
   html+=`<h2>Sistema de evaluación <small>${g.totalW?g.totalW+'%':''}</small></h2>`;
   if(g.totalW&&g.totalW!==100)html+=`<div class="hint" style="margin:-4px 0 8px;color:var(--amber)">Los pesos suman ${g.totalW}%, no 100%. Revísalos para que el cálculo sea exacto.</div>`;
-  html+=g.items.length?`<div class="card">${g.items.map(t=>`<div class="ev" onclick="openTaskForm('${t.id}')"><div class="grow"><div style="font-weight:800">${esc(t.title)}</div><div class="w">${TYPES[t.type]} · ${t.weight}%${t.date?' · '+fmtDate(t.date):''}${t.done?' · hecho':''}</div></div><div class="g ${t.grade==null||t.grade===''?'na':''}">${t.grade==null||t.grade===''?'sin nota':n1(Number(t.grade))}</div></div>`).join('')}</div>`:emptyBox('Sin sistema de evaluación','Añade exámenes, prácticas o trabajos con su peso en la nota final.');
-  html+=`<div class="row" style="justify-content:center;margin-top:12px"><button class="btn primary small" onclick="openTaskForm(null,{subjectId:'${s.id}',type:'examen',weight:''})">+ Añadir evaluación</button></div><div class="hint center" style="margin-top:8px">Cualquier tarea con “peso en la nota” aparece aquí. Las notas van sobre 10.</div>`;
+  html+=g.items.length?`<div class="card">${g.items.map(t=>`<div class="ev" onclick="openTaskForm('${t.id}')"><div class="grow"><div style="font-weight:800">${esc(t.title)}</div><div class="w">${TYPES[t.type]} · ${t.weight}%${t.date?' · '+fmtDate(t.date):''}${t.done?' · Hecho':''}</div></div><div class="g ${t.grade==null||t.grade===''?'na':''}">${t.grade==null||t.grade===''?'Sin nota':n1(Number(t.grade))}</div></div>`).join('')}</div>`:emptyBox('Sin sistema de evaluación','Añade exámenes, prácticas o trabajos con su peso en la nota final.');
+  html+=`<div class="row" style="justify-content:center;margin-top:12px"><button class="btn primary small" onclick="openTaskForm(null,{subjectId:'${s.id}',type:'examen',weight:''})">Añadir evaluación</button></div><div class="hint center" style="margin-top:8px">Cualquier tarea con “peso en la nota” aparece aquí. Las notas van sobre 10.</div>`;
  }else if(ui.subjTab==='asis'){
   const ss=sessionsFor(s.id);
   html+=`<div class="grade-big"><div class="g"><b>${at.pct!=null?at.pct+'%':'–'}</b><span>Asistencia</span></div><div class="g"><b style="color:${at.a?'var(--red)':'inherit'}">${at.a}</b><span>Faltas sin justificar</span></div><div class="g"><b>${at.total}</b><span>Sesiones hasta hoy</span></div></div>`;
-  if(at.total){const maxA=Math.floor(at.total*(100-state.settings.minAttendance)/100);const limit=Math.floor(at.total+sessionsRemaining(s.id));const maxTotal=Math.floor(limit*(100-state.settings.minAttendance)/100);html+=`<div class="card" style="margin-top:10px"><div class="row" style="justify-content:space-between"><b>Mínimo ${state.settings.minAttendance}%</b><span class="pill ${at.pct>=state.settings.minAttendance?'green':'red'}">${at.pct>=state.settings.minAttendance?'Cumples':'Por debajo'}</span></div><div class="wk-bar"><i style="width:${at.pct}%;background:${at.pct>=state.settings.minAttendance?'var(--green)':'var(--red)'}"></i></div><div class="hint">Puedes faltar como máximo ${maxTotal} ${maxTotal===1?'vez':'veces'} en todo el cuatrimestre (${limit} sesiones previstas). Llevas ${at.a}.${at.unrec?' Sesiones sin registrar: '+at.unrec+' (cuentan como asistidas).':''}</div></div>`}
+  if(at.total){const maxA=Math.floor(at.total*(100-state.settings.minAttendance)/100);const limit=Math.floor(at.total+sessionsRemaining(s.id));const maxTotal=Math.floor(limit*(100-state.settings.minAttendance)/100);html+=`<div class="card" style="margin-top:10px"><div class="row" style="justify-content:space-between"><b>Mínimo ${state.settings.minAttendance}%</b><span class="pill ${at.pct>=state.settings.minAttendance?'green':'red'}">${at.pct>=state.settings.minAttendance?'Cumples el mínimo':'Por debajo del mínimo'}</span></div><div class="wk-bar"><i style="width:${at.pct}%;background:${at.pct>=state.settings.minAttendance?'var(--green)':'var(--red)'}"></i></div><div class="hint">Puedes faltar como máximo ${maxTotal} ${maxTotal===1?'vez':'veces'} en todo el cuatrimestre (${limit} sesiones previstas). Llevas ${at.a}.${at.unrec?' Sesiones sin registrar: '+at.unrec+' (cuentan como asistidas).':''}</div></div>`}
   html+=`<h2>Sesiones <small>recientes primero</small></h2>`;
   html+=ss.length?`<div class="card">${ss.slice(0,40).map(x=>`<div class="sess"><div class="grow"><b>${fmtDate(x.date)}</b> <span class="muted">${x.cls.start} · ${KINDS[x.cls.kind]||''}</span></div>${attButtons(x.cls,x.date)}</div>`).join('')}${ss.length>40?`<div class="hint center" style="padding:10px">Mostrando las 40 más recientes de ${ss.length}.</div>`:''}</div>`:emptyBox('Sin sesiones aún','Las sesiones aparecen según tu horario y las fechas del cuatrimestre.');
  }else{
@@ -1011,8 +1069,8 @@ function viewAsignatura(){
 function sessionsRemaining(sid){const subj=getSubject(sid);if(!subj)return 0;const cls=state.classes.filter(c=>c.subjectId===sid);const t=todayISO();let n=0;state.settings.semesters.filter(s=>subj.semester==='anual'||s.id===subj.semester).forEach(s=>{if(s.end<=t)return;const start=s.start>t?s.start:addDays(t,1);for(let iso=start;iso<=s.end;iso=addDays(iso,1)){if(isHoliday(iso))continue;const wd=dow(parseISO(iso));n+=cls.filter(c=>c.day===wd).length}});return n}
 let notesT;function saveNotes(sid,v){state.notes[sid]=v;clearTimeout(notesT);notesT=setTimeout(()=>{save()},500)}
 /* ===================== HERRAMIENTAS ===================== */
-const TOOLS=[['plan','Plan de estudio','📖','rgba(14,165,233,.16)','Tu semana de estudio, por días'],['examenes','Preparar exámenes','🎓','rgba(236,72,153,.14)','Temario, progreso y ritmo'],['timer','Temporizador','⏱️','rgba(240,140,0,.16)','Pomodoro con registro'],['estudio','Registro de estudio','📊','rgba(139,92,246,.16)','Horas y objetivo semanal'],['asistencia','Calculadora de asistencia','🎯','rgba(47,91,255,.14)','Cuántas faltas te quedan'],['nota','Calculadora de nota','📐','rgba(47,165,114,.16)','Qué necesitas para aprobar'],['planestudios','Plan de estudios','🗂️','rgba(100,116,139,.16)','Tu carrera por cursos y cuatrimestres']];
-function toolHead(title,sub){return `<div class="topbar"><div><h1 style="font-size:1.35em">${title}</h1>${sub?`<div class="sub">${sub}</div>`:''}</div><button class="btn small" onclick="go('estudio')">‹ Estudio</button></div>`}
+const TOOLS=[['plan','Planificador semanal','📖','rgba(14,165,233,.16)','Tus sesiones de estudio'],['examenes','Preparar exámenes','🎓','rgba(236,72,153,.14)','Temario, progreso y ritmo'],['timer','Temporizador','⏱️','rgba(240,140,0,.16)','Bloques con descansos'],['estudio','Registro de estudio','📊','rgba(139,92,246,.16)','Horas y objetivo semanal'],['asistencia','Calculadora de asistencia','🎯','rgba(47,91,255,.14)','Faltas que te quedan'],['nota','Calculadora de nota','📐','rgba(47,165,114,.16)','Nota que necesitas'],['planestudios','Plan de la carrera','🗂️','rgba(100,116,139,.16)','Cursos y cuatrimestres']];
+function toolHead(title,sub){return `<div class="topbar"><div><h1>${title}</h1>${sub?`<div class="sub">${sub}</div>`:''}</div><button class="btn small" onclick="go('estudio')">‹ Estudio</button></div>`}
 function viewTool(){const k=ui.param;if(k==='planestudios')return toolPlanEstudios();if(k==='plan')return toolPlan();if(k==='examenes')return toolExamenes();if(k==='asistencia')return toolAsistencia();if(k==='nota')return toolNota();if(k==='timer')return toolTimer();if(k==='estudio')return toolEstudio();go('mas');return ''}
 const subjSel=(id,onch,withClasses)=>`<select id="${id}" onchange="${onch}"><option value="">— Rellenar a mano —</option>${state.subjects.filter(s=>!withClasses||state.classes.some(c=>c.subjectId===s.id)).slice().sort((a,b)=>a.name.localeCompare(b.name)).map(s=>`<option value="${s.id}" ${ui.toolSubj===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select>`;
 
@@ -1022,20 +1080,20 @@ function viewEstudio(){
  let html=topbar('Estudio');
  html+=`<div class="cols"><div class="col">`;
  html+=goalHTML();
- html+=`<h2>Hoy <small>${todayPlans.length?fmtDur(todayPlans.reduce((a,p)=>a+toMin(p.end)-toMin(p.start),0)):''}</small></h2>`;
- html+=todayPlans.length?todayPlans.map(p=>planRow(p,t,{actions:true})).join(''):`<div class="card empty" style="padding:18px"><span class="em">🌿</span>Nada planificado para hoy.<div class="row" style="justify-content:center;margin-top:12px;gap:8px"><button class="btn primary small" onclick="openPlanForm(null,{day:${wdT}})">Planificar sesión</button><button class="btn small" onclick="tm.subjectId='';go('tool','timer')">Empezar ahora</button></div></div>`;
+ html+=`<h2>Estudio de hoy <small>${todayPlans.length?fmtDur(todayPlans.reduce((a,p)=>a+toMin(p.end)-toMin(p.start),0)):''}</small></h2>`;
+ html+=todayPlans.length?todayPlans.map(p=>planRow(p,t,{actions:true})).join(''):`<div class="card empty" style="padding:18px"><span class="em">🌿</span>Nada planificado para hoy.<div class="row" style="justify-content:center;margin-top:12px;gap:8px"><button class="btn primary small" onclick="openPlanForm(null,{day:${wdT}})">Añadir sesión</button><button class="btn small" onclick="tm.subjectId='';go('tool','timer')">Empezar ahora</button></div></div>`;
  if(ex.length){html+=`<h2>Próximo examen <small>${ex.length>1?'+'+(ex.length-1)+' más':''}</small></h2>`+examCard(ex[0])}
  html+=`</div><div class="col">`;
  html+=`<h2 style="margin-top:4px">Herramientas</h2><div class="tools">${TOOLS.map(x=>`<button class="tool" onclick="go('tool','${x[0]}')"><i style="background:${x[3]}">${x[2]}</i><b>${x[1]}</b><span>${x[4]}</span></button>`).join('')}</div>`;
  const cat=catalogFor();
- html+=`<div class="card clickable" style="margin-top:12px" onclick="go('tool','planestudios')"><div class="row"><i style="font-style:normal;font-size:26px">🗂️</i><div class="grow"><b>Plan de estudios</b><div class="sub">${cat?esc(cat.label)+' · '+cat.info.ects+' ECTS · '+cat.info.years+' cursos':'Tus asignaturas por curso y periodo, con créditos'}</div></div><span class="pill">Ver ›</span></div></div>`;
+ html+=`<div class="card clickable" style="margin-top:12px" onclick="go('tool','planestudios')"><div class="row"><i class="i-tool">🗂️</i><div class="grow"><b class="h-std">Plan de la carrera</b><div class="sub">${cat?esc(cat.label)+' · '+cat.info.ects+' ECTS · '+cat.info.years+' cursos':'Tus asignaturas por curso y periodo, con créditos'}</div></div><span class="pill blue">Abrir</span></div></div>`;
  html+=`</div></div>`;
  return html;
 }
 /* ---- Plan de estudios (información de la carrera) ---- */
 function toolPlanEstudios(){
  const P=state.settings.profile;const cat=catalogFor();const others=catalogForUni();
- let html=toolHead('Plan de estudios',cat?cat.label:courseLabel());
+ let html=toolHead('Plan de la carrera',cat?cat.label:courseLabel());
  if(cat){
   if(!ui.peYear)ui.peYear=P.year;
   const inf=cat.info;const total=Object.keys(cat.years).reduce((a,y)=>a+catYearEcts(cat,+y),0);
@@ -1044,10 +1102,10 @@ function toolPlanEstudios(){
   const rows=catYearRows(cat,ui.peYear);const have=new Set(state.subjects.map(s=>s.name.toLowerCase()));
   const groups=[['1','1º cuatrimestre'],['2','2º cuatrimestre'],['anual','Anual']];
   html+=`<div class="cols">`;
-  groups.forEach(g=>{const rs=rows.filter(r=>String(r.semester)===g[0]);if(!rs.length)return;html+=`<div class="col"><h2>${g[1]} <small>${rs.reduce((a,r)=>a+r.credits,0)} ECTS</small></h2><div class="card" style="padding:6px 16px">${rs.map(r=>`<div class="ev"><div class="grow"><div style="font-weight:800">${esc(r.name)}${have.has(r.name.toLowerCase())?' <span class="pill green">la tienes</span>':''}</div><div class="w">${r.credits} ECTS · ${STYPE_ALL[r.type]||r.type}</div></div></div>`).join('')}</div></div>`});
+  groups.forEach(g=>{const rs=rows.filter(r=>String(r.semester)===g[0]);if(!rs.length)return;html+=`<div class="col"><h2>${g[1]} <small>${rs.reduce((a,r)=>a+r.credits,0)} ECTS</small></h2><div class="card" style="padding:6px 16px">${rs.map(r=>`<div class="ev"><div class="grow"><div style="font-weight:800">${esc(r.name)}${have.has(r.name.toLowerCase())?' <span class="pill green">Añadida</span>':''}</div><div class="w">${r.credits} ECTS · ${STYPE_ALL[r.type]||r.type}</div></div></div>`).join('')}</div></div>`});
   html+=`</div>`;
   const missing=rows.filter(r=>!have.has(r.name.toLowerCase()));
-  html+=`<div class="row" style="justify-content:center;margin-top:16px;gap:8px;flex-wrap:wrap">${missing.length?`<button class="btn primary" onclick="reviewSubjects(cat2rows(catalogFor(),${ui.peYear}).filter(r=>!state.subjects.some(s=>s.name.toLowerCase()===r.name.toLowerCase())),'Añadir asignaturas de ${ui.peYear}º')">Añadir ${missing.length} de ${ui.peYear}º a mis asignaturas</button>`:`<span class="pill green">Ya tienes todas las de ${ui.peYear}º</span>`}</div>`;
+  html+=`<div class="row" style="justify-content:center;margin-top:16px;gap:8px;flex-wrap:wrap">${missing.length?`<button class="btn primary" onclick="reviewSubjects(cat2rows(catalogFor(),${ui.peYear}).filter(r=>!state.subjects.some(s=>s.name.toLowerCase()===r.name.toLowerCase())),'Añadir asignaturas de ${ui.peYear}º')">Añadir ${missing.length} asignaturas de ${ui.peYear}º</button>`:`<span class="pill green">Todas las de ${ui.peYear}º añadidas</span>`}</div>`;
   if(cat.optativas)html+=`<h2>Optativas del grado</h2><div class="card"><div class="sub">${cat.optativas.map(esc).join(' · ')}</div><div class="hint">Las optativas se eligen según la oferta de cada curso: añade a mano la que curses.</div></div>`;
   html+=`<div class="hint center" style="margin-top:16px">Fuente: folleto oficial del grado en ucam.edu. Confirma siempre con tu guía docente.</div>`;
  }else{
@@ -1063,14 +1121,14 @@ function toolPlanEstudios(){
 function toolPlan(){
  const t=todayISO();const wdT=dow(new Date());if(!ui.planDay)ui.planDay=wdT;const {mon}=weekRange(t);
  const total=weekPlanned();const goal=(Number(state.settings.weeklyGoal)||0)*60;
- let html=toolHead('Plan de estudio','Decide cuándo estudias cada asignatura. Se repite cada semana.');
+ let html=toolHead('Planificador semanal','Decide cuándo estudias cada asignatura. Se repite cada semana.');
  html+=`<div class="cols"><div class="col">`;
- html+=`<div class="card"><div class="row" style="justify-content:space-between"><div><b>${fmtDur(total)} planificadas a la semana</b><div class="sub">${goal?(total>=goal?'Cubres tu objetivo de '+fmtDur(goal)+' 🎉':'Tu objetivo es '+fmtDur(goal)+': te faltan '+fmtDur(goal-total)+' por planificar'):'Pon un objetivo semanal en Ajustes'}</div></div></div>${goal?`<div class="prog"><i style="width:${Math.min(100,Math.round(total/goal*100))}%"></i></div>`:''}</div>`;
+ html+=`<div class="card"><div class="row" style="justify-content:space-between"><div><b class="h-std">${fmtDur(total)} planificadas a la semana</b><div class="sub">${goal?(total>=goal?'Cubres tu objetivo de '+fmtDur(goal)+' 🎉':'Tu objetivo es '+fmtDur(goal)+': te faltan '+fmtDur(goal-total)+' por planificar'):'Pon un objetivo semanal en Ajustes'}</div></div></div>${goal?`<div class="prog"><i style="width:${Math.min(100,Math.round(total/goal*100))}%"></i></div>`:''}</div>`;
  html+=`<div class="days" style="margin-top:14px">${[1,2,3,4,5,6,7].map(d=>{const m=plansOn(d).reduce((a,p)=>a+toMin(p.end)-toMin(p.start),0);return `<button class="${ui.planDay===d?'on':''} ${d===wdT?'today':''}" onclick="ui.planDay=${d};render()">${DAYS_1[d]}<small>${m?fmtDur(m).replace(' min','m').replace(' h','h'):'–'}</small></button>`}).join('')}</div>`;
  const iso=addDays(mon,ui.planDay-1);const ps=plansOn(ui.planDay);
  html+=`<div class="sub" style="margin:8px 0 2px">${DAYS[ui.planDay]}${iso===t?' · hoy':''}</div>`;
  html+=ps.length?ps.map(p=>planRow(p,iso,{actions:iso<=t})).join(''):emptyBox('Nada planificado el '+DAYS[ui.planDay].toLowerCase(),'Añade una sesión: asignatura, hora y tema.','','📖');
- html+=`<div class="row" style="justify-content:center;margin-top:12px"><button class="btn primary" onclick="openPlanForm(null,{day:${ui.planDay}})">+ Añadir sesión</button></div>`;
+ html+=`<div class="row" style="justify-content:center;margin-top:12px"><button class="btn primary" onclick="openPlanForm(null,{day:${ui.planDay}})">Añadir sesión</button></div>`;
  html+=`</div><div class="col">`;
  const bySubj={};state.plans.forEach(p=>{bySubj[p.subjectId||'']=(bySubj[p.subjectId||'']||0)+toMin(p.end)-toMin(p.start)});
  const rows=Object.entries(bySubj).sort((a,b)=>b[1]-a[1]);
@@ -1088,16 +1146,16 @@ function openPlanForm(id,pre){
  <label class="field"><span>Qué vas a estudiar</span><input id="f-topic" value="${esc(p.topic)}" placeholder="Ej. Tema 3 · ejercicios de la práctica 2"></label>
  <label class="field"><span>Nota</span><input id="f-note" value="${esc(p.note||'')}" placeholder="Ej. en la biblioteca, con el grupo…"></label>
  ${id?`<button class="btn danger block" style="margin-top:18px" onclick="state.plans=state.plans.filter(x=>x.id!=='${id}');save();closeSheet();render()">Eliminar sesión</button>`:''}`;
- openSheet(id?'Editar sesión de estudio':'Nueva sesión de estudio',body,()=>{const o={subjectId:val('f-subj'),day:+val('f-day'),start:val('f-start'),end:val('f-end'),topic:val('f-topic'),note:val('f-note')};if(!o.start||!o.end||toMin(o.end)<=toMin(o.start)){toast('Revisa las horas');return false}if(id)Object.assign(state.plans.find(x=>x.id===id),o);else{o.id=uid();state.plans.push(o)}save();ui.planDay=o.day;toast(id?'Sesión guardada':'Sesión añadida');return true});
+ openSheet(id?'Editar sesión':'Nueva sesión',body,()=>{const o={subjectId:val('f-subj'),day:+val('f-day'),start:val('f-start'),end:val('f-end'),topic:val('f-topic'),note:val('f-note')};if(!o.start||!o.end||toMin(o.end)<=toMin(o.start)){toast('Revisa las horas');return false}if(id)Object.assign(state.plans.find(x=>x.id===id),o);else{o.id=uid();state.plans.push(o)}save();ui.planDay=o.day;toast(id?'Sesión guardada':'Sesión añadida');return true});
 }
 /* ---- Preparar exámenes ---- */
 function toolExamenes(){
  const ex=upcomingExams();const t=todayISO();
- let html=toolHead('Preparar exámenes','Añade el temario de cada examen, marca lo que llevas y mira a qué ritmo vas.');
+ let html=toolHead('Preparar exámenes','Añade el temario de cada examen y sigue tu ritmo de estudio.');
  html+=`<div class="cols"><div class="col">`;
  html+=`<h2 style="margin-top:4px">Próximos <small>${ex.length||''}</small></h2>`;
  html+=ex.length?ex.map(examCard).join(''):emptyBox('Sin exámenes próximos','Crea una tarea de tipo Examen con fecha y aparecerá aquí.',`<button class="btn primary" onclick="openTaskForm(null,{type:'examen'})">Añadir examen</button>`,'🎓');
- if(ex.length)html+=`<div class="row" style="justify-content:center;margin-top:12px"><button class="btn small" onclick="openTaskForm(null,{type:'examen'})">+ Añadir examen</button></div>`;
+ if(ex.length)html+=`<div class="row" style="justify-content:center;margin-top:12px"><button class="btn small" onclick="openTaskForm(null,{type:'examen'})">Añadir examen</button></div>`;
  html+=`</div><div class="col">`;
  const past=state.tasks.filter(x=>x.type==='examen'&&(x.done||(x.date&&x.date<t))).sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,10);
  html+=`<h2>Hechos <small>${past.length||''}</small></h2>`+(past.length?past.map(taskRow).join(''):`<div class="card empty" style="padding:18px">Aquí quedarán tus exámenes pasados con su nota.</div>`);
@@ -1109,7 +1167,7 @@ function toolExamenes(){
 function toolAsistencia(){
  let T=20,H=4,A=0,m=state.settings.minAttendance;
  if(ui.toolSubj&&getSubject(ui.toolSubj)){const at=attStats(ui.toolSubj);T=at.total+sessionsRemaining(ui.toolSubj);H=at.total;A=at.a}
- let html=toolHead('Calculadora de asistencia','¿Cuántas veces puedes faltar sin perder el derecho a examen?');
+ let html=toolHead('Calculadora de asistencia','Cuántas veces puedes faltar sin perder el derecho a examen.');
  html+=`<div class="cols"><div class="col"><div class="card"><label class="field" style="margin-top:0"><span>Tomar datos de una asignatura</span>${subjSel('ta-subj',"ui.toolSubj=this.value;render()",true)}</label>
  <div class="cols2"><label class="field"><span>Sesiones totales del cuatrimestre</span><input id="ta-T" type="number" inputmode="numeric" min="1" value="${T}" oninput="calcAtt()"></label><label class="field"><span>Sesiones ya impartidas</span><input id="ta-H" type="number" inputmode="numeric" min="0" value="${H}" oninput="calcAtt()"></label></div>
  <div class="cols2"><label class="field"><span>Faltas hasta ahora</span><input id="ta-A" type="number" inputmode="numeric" min="0" value="${A}" oninput="calcAtt()"></label><label class="field"><span>Asistencia mínima (%)</span><input id="ta-m" type="number" inputmode="numeric" min="0" max="100" value="${m}" oninput="calcAtt()"></label></div>
@@ -1127,7 +1185,7 @@ function calcAtt(){const g=id=>Number($('#'+id).value);const out=$('#ta-out');if
 function toolNota(){
  let avg='',gW='',sw=false;
  if(ui.toolSubj&&getSubject(ui.toolSubj)){const g=gradeStats(ui.toolSubj);if(g.avg!=null){avg=Math.round(g.avg*100)/100;gW=g.gW;sw=true}}
- let html=toolHead('Calculadora de nota','¿Qué necesitas en lo que queda para llegar a tu objetivo?');
+ let html=toolHead('Calculadora de nota','Qué necesitas en lo que queda para llegar a tu objetivo.');
  html+=`<div class="cols"><div class="col"><div class="card"><label class="field" style="margin-top:0"><span>Tomar datos de una asignatura</span>${subjSel('tn-subj',"ui.toolSubj=this.value;render()")}</label>
  <div class="cols2"><label class="field"><span>Media de lo ya evaluado (0–10)</span><input id="tn-avg" type="number" inputmode="decimal" step="0.01" min="0" max="10" value="${avg}" placeholder="Ej. 6,4" oninput="calcNota()"></label><label class="field"><span>Porcentaje ya evaluado (%)</span><input id="tn-w" type="number" inputmode="numeric" min="0" max="100" value="${gW}" placeholder="Ej. 40" oninput="calcNota()"></label></div>
  <div class="cols2"><label class="field"><span>Objetivo</span><input id="tn-t" type="number" inputmode="decimal" step="0.1" min="0" max="10" value="5" oninput="calcNota()"></label><label class="field"><span>Si sacas esto en el resto…</span><input id="tn-x" type="number" inputmode="decimal" step="0.1" min="0" max="10" value="" placeholder="Ej. 7" oninput="calcNota()"></label></div>
@@ -1144,7 +1202,7 @@ function calcNota(){const out=$('#tn-out');if(!out)return;const avg=parseFloat($
 /* ---- Temporizador ---- */
 const tm={running:false,endAt:0,remaining:25*60,mode:'focus',focus:25,brk:5,iv:null,subjectId:'',done:0};
 function toolTimer(){
- let html=toolHead('Temporizador de estudio','Bloques de concentración con descansos. Cada bloque se apunta en tu registro.');
+ let html=toolHead('Temporizador','Bloques de concentración con descansos. Cada bloque se apunta en tu registro.');
  html+=`<div class="cols"><div class="col"><div class="card timer"><div class="ring ${tm.mode==='break'?'break':''}" id="tm-ring" style="--p:${ringPct()}%"><div class="digits" id="tm-digits">${fmtClock(tm.remaining)}</div><div class="mode" id="tm-mode">${tm.mode==='focus'?'Concentración':'Descanso'}${tm.done?' · bloque '+(tm.done+1):''}</div></div>
  <div class="ctl">${tm.running?`<button class="btn" onclick="timerPause()">Pausar</button>`:`<button class="btn primary" onclick="timerStart()">${tm.remaining<(tm.mode==='focus'?tm.focus:tm.brk)*60?'Continuar':'Empezar'}</button>`}<button class="btn" onclick="timerReset()">Reiniciar</button><button class="btn ghost" onclick="timerSkip()">Saltar</button></div></div>`;
  html+=`</div><div class="col"><div class="card tool-out"><label class="field" style="margin-top:0"><span>Asignatura que estás estudiando</span><select onchange="tm.subjectId=this.value"><option value="">— Sin asignatura —</option>${state.subjects.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(s=>`<option value="${s.id}" ${tm.subjectId===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select></label>
@@ -1152,7 +1210,7 @@ function toolTimer(){
  <div class="hint">El temporizador sigue aunque cambies de pantalla dentro de la app. Si cierras la pestaña, se detiene.</div></div>`;
  const t=todayISO();const td=studyMinutes(t,t);const {mon,sun}=weekRange(t);
  html+=`<div class="res" style="margin-top:12px"><div style="background:var(--card);box-shadow:var(--shadow);border:1px solid var(--edge)"><b>${fmtDur(td)}</b><span>Estudiado hoy</span></div><div style="background:var(--card);box-shadow:var(--shadow);border:1px solid var(--edge)"><b>${fmtDur(studyMinutes(mon,sun))}</b><span>Esta semana</span></div></div>`;
- html+=`<div class="row" style="justify-content:center;margin-top:14px;gap:8px"><button class="btn small" onclick="openStudyForm()">+ Apuntar sesión a mano</button><button class="btn small ghost" onclick="go('tool','estudio')">Ver registro</button></div>`;
+ html+=`<div class="row" style="justify-content:center;margin-top:14px;gap:8px"><button class="btn small" onclick="openStudyForm()">Apuntar sesión a mano</button><button class="btn small ghost" onclick="go('tool','estudio')">Ver registro</button></div>`;
  html+=`</div></div>`;
  return html;
 }
@@ -1172,7 +1230,7 @@ function openStudyForm(){openSheet('Apuntar sesión de estudio',`<label class="f
 /* ---- Registro de estudio ---- */
 function toolEstudio(){
  const t=todayISO();const {mon,sun}=weekRange(t);const wk=state.study.filter(x=>x.date>=mon&&x.date<=sun);const tot=wk.reduce((a,x)=>a+Number(x.minutes),0);
- let html=toolHead('Registro de estudio','Semana del '+fmtDate(mon)+' al '+fmtDate(sun));
+ let html=toolHead('Registro de estudio','Semana del '+fmtDate(mon)+' al '+fmtDate(sun)+'.');
  html+=`<div class="cols"><div class="col">`;
  html+=`<div class="res" style="margin-top:4px"><div style="background:var(--card);box-shadow:var(--shadow);border:1px solid var(--edge)"><b>${fmtDur(tot)}</b><span>Esta semana</span></div><div style="background:var(--card);box-shadow:var(--shadow);border:1px solid var(--edge)"><b>${fmtDur(state.study.reduce((a,x)=>a+Number(x.minutes),0))}</b><span>Total del curso</span></div></div>`;
  const bySubj={};wk.forEach(x=>{bySubj[x.subjectId||'']=(bySubj[x.subjectId||'']||0)+Number(x.minutes)});const rows=Object.entries(bySubj).sort((a,b)=>b[1]-a[1]);const max=rows.length?rows[0][1]:1;
@@ -1182,7 +1240,7 @@ function toolEstudio(){
  html+=`<h2>Por día</h2><div class="card"><div class="row" style="align-items:flex-end;gap:6px;height:110px">${days.map(d=>{const m=studyMinutes(d,d);const h=tot?Math.max(4,Math.round(m/Math.max(...days.map(x=>studyMinutes(x,x)),1)*86)):4;return `<div class="grow center" style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:11px;color:var(--ink-3);font-weight:700">${m?fmtDur(m).replace(' min','m').replace(' h','h'):''}</span><div style="width:100%;height:${h}px;border-radius:6px;background:${d===t?'var(--sun)':'var(--blue)'};opacity:${m?1:.18}"></div><span style="font-size:11px;font-weight:800;color:${d===t?'var(--ink)':'var(--ink-3)'}">${DAYS_1[dow(parseISO(d))]}</span></div>`}).join('')}</div></div>`;
  const recent=state.study.slice().sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,15);
  html+=`<h2>Últimas sesiones</h2>`+(recent.length?`<div class="card">${recent.map(x=>{const s=getSubject(x.subjectId);return `<div class="sess"><div class="grow"><b>${fmtDate(x.date)}</b> <span class="muted">· ${esc(s?s.short||s.name:'Sin asignatura')}</span></div><b>${fmtDur(x.minutes)}</b><button class="btn small ghost" style="color:var(--red)" onclick="state.study=state.study.filter(y=>y.id!=='${x.id}');save();render()">Borrar</button></div>`}).join('')}</div>`:'');
- html+=`<div class="row" style="justify-content:center;margin-top:14px"><button class="btn small" onclick="openStudyForm()">+ Apuntar sesión a mano</button></div>`;
+ html+=`<div class="row" style="justify-content:center;margin-top:14px"><button class="btn small" onclick="openStudyForm()">Apuntar sesión a mano</button></div>`;
  html+=`</div></div>`;
  return html;
 }
